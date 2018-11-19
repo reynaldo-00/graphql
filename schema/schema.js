@@ -55,24 +55,16 @@ const RootQuery = new GraphQLObjectType({
             args: {id: { type: GraphQLInt }},
             resolve: async (parent, args) => {
                 // code to get data from db or sources
-                try {
-                    const book = await db('books').where({id: args.id})[0];
-                    return book;
-                } catch(error) {
-                    console.log(error);
-                }
+                const book = await db('books').where({id: args.id})[0];
+                return book;
             }
         },
         author: {
             type: AuthorType,
             args: {id: { type: GraphQLInt }},
             resolve: async (parent, args) => {
-                try {
-                    const author = await db('authors').where({id: args.id})[0];
-                    return author;
-                } catch(error) {
-                    console.log(error);
-                }
+                const author = await db('authors').where({id: args.id})[0];
+                return author;
             }
         },
         books: {
@@ -101,13 +93,9 @@ const Mutations = new GraphQLObjectType({
                 age: { type: new GraphQLNonNull(GraphQLInt)}
             },
             resolve: async (parent, args) => {
-                try {
-                    const newId = await db('authors').insert(args);
-                    const newAuthor = await db('authors').where({id: newId[0]});
-                    return newAuthor[0];
-                } catch(error) {
-                    console.log(error);
-                }
+                const newId = await db('authors').insert(args);
+                const newAuthor = await db('authors').where({id: newId[0]});
+                return newAuthor[0];
             }
         },
         addBook: {
@@ -118,13 +106,9 @@ const Mutations = new GraphQLObjectType({
                 author_id: { type: new GraphQLNonNull(GraphQLInt) }
             },
             resolve: async (parent, args) => {
-                try {
-                    const newId = await db('books').insert(args);
-                    const newBook = await db('books').where({id: newId[0]});
-                    return newBook[0];
-                } catch(error) {
-                    console.log(error);
-                }
+                const newId = await db('books').insert(args);
+                const newBook = await db('books').where({id: newId[0]});
+                return newBook[0];
             }
         }
     }
