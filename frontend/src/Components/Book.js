@@ -1,8 +1,11 @@
 import React from 'react';
 
-const Book = ({book}) => {
+const Book = ({book, clicked }) => {
     return (
-        <div>
+        <div 
+            onClick={e => clicked(e, book.id)}
+            style={{'cursor': 'pointer', 'userSelect': 'none'}}
+        >
             <h2>{book.name}</h2>
             <h2>{book.id}</h2>
         </div>

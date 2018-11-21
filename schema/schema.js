@@ -24,7 +24,7 @@ const BookType = new GraphQLObjectType({
         author: {
             type: AuthorType,
             resolve: async (parent, args) => {
-                const author = db('author').where({id: parent.id})[0]
+                const author = db('authors').where({id: parent.id}).first();
                 return author;
             }
         }
@@ -55,7 +55,7 @@ const RootQuery = new GraphQLObjectType({
             args: {id: { type: GraphQLInt }},
             resolve: async (parent, args) => {
                 // code to get data from db or sources
-                const book = await db('books').where({id: args.id})[0];
+                const book = await db('books').where({id: args.id}).first();
                 return book;
             }
         },
@@ -63,7 +63,7 @@ const RootQuery = new GraphQLObjectType({
             type: AuthorType,
             args: {id: { type: GraphQLInt }},
             resolve: async (parent, args) => {
-                const author = await db('authors').where({id: args.id})[0];
+                const author = await db('authors').where({id: args.id}).first();
                 return author;
             }
         },
@@ -94,8 +94,8 @@ const Mutations = new GraphQLObjectType({
             },
             resolve: async (parent, args) => {
                 const newId = await db('authors').insert(args);
-                const newAuthor = await db('authors').where({id: newId[0]});
-                return newAuthor[0];
+                const newAuthor = await db('authors').where({id: newId[0]}).first();
+                return newAuthor;
             }
         },
         addBook: {
@@ -107,8 +107,8 @@ const Mutations = new GraphQLObjectType({
             },
             resolve: async (parent, args) => {
                 const newId = await db('books').insert(args);
-                const newBook = await db('books').where({id: newId[0]});
-                return newBook[0];
+                const newBook = await db('books').where({id: newId[0]}).first();
+                return newBook;
             }
         }
     }
